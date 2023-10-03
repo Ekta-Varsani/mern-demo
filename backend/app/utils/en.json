@@ -1,0 +1,19 @@
+{
+    "en": {
+        "successCode": {
+            "301": "You are registered successfully.",
+            "302": "Updated successfully.",
+            "303": "User deleted successfully",
+            "304": "User list succeed",
+            "305": "Updated successfully"
+        },
+        "errorCode": {
+            "101": "Something went wrong...",
+            "301": "Email id is already registered.",
+            "302": "Phone number is already registered.",
+            "303": "User details is not saved",
+            "304": "User data not found",
+            "305": "Update failed"
+        }
+    }
+}

@@ -1,0 +1,4 @@
+module.exports = FOLDER_NAME = {
+	USER_PROFILES: 10,
+	USER_DOCUMENTS: 11
+}
