@@ -1,7 +1,7 @@
 require('../utils/messageCode')
 require('../utils/errorCode')
 require('../utils/constant')
-const mongoose= require('mongoose')
+const mongoose = require('mongoose')
 const utils = require('../utils/utils')
 const User = require('mongoose').model('user')
 
@@ -10,12 +10,12 @@ exports.userRegistration = async (req, res) => {
 		await utils.checkRequestParams(req.body, [{ name: 'phoneNumber', type: 'string' }, { name: 'firstName', type: 'string' }, { name: 'email', type: 'string' }])
 		const requestDataBody = req.body
 
-        const emailUser = await User.findOne({ email: requestDataBody.email })
-        if(emailUser) throw({ errorCode: USER_ERROR_CODE.EMAIL_ALREADY_REGISTERED })
+		const emailUser = await User.findOne({ email: requestDataBody.email })
+		if (emailUser) throw ({ errorCode: USER_ERROR_CODE.EMAIL_ALREADY_REGISTERED })
 
-        const phoneUser = await User.findOne({ phoneNumber: requestDataBody.phoneUser })
-        if(phoneUser) throw({ errorCode: USER_ERROR_CODE.PHONE_NUMBER_ALREADY_REGISTERED })
-		
+		const phoneUser = await User.findOne({ phoneNumber: requestDataBody.phoneUser })
+		if (phoneUser) throw ({ errorCode: USER_ERROR_CODE.PHONE_NUMBER_ALREADY_REGISTERED })
+
 		requestDataBody.firstName = utils.getStringWithFirstLetterUpperCase(requestDataBody.firstName)
 		requestDataBody.lastName = utils.getStringWithFirstLetterUpperCase(requestDataBody.lastName)
 
@@ -28,13 +28,13 @@ exports.userRegistration = async (req, res) => {
 			utils.storeImageToFolder(imageFile[0].path, imageName + '.jpg', FOLDER_NAME.USER_PROFILES)
 		}
 
-        const newUser = await userData.save()
-        if(!newUser) throw ({ errorCode: USER_ERROR_CODE.USER_NOT_SAVED })
+		const newUser = await userData.save()
+		if (!newUser) throw ({ errorCode: USER_ERROR_CODE.USER_NOT_SAVED })
 
-        return res.json({ success: true, ...utils.middleware(req.headers.lang, USER_MESSAGE_CODE.REGISTER_SUCCESSFULLY, true) })
-		
+		return res.json({ success: true, ...utils.middleware(req.headers.lang, USER_MESSAGE_CODE.REGISTER_SUCCESSFULLY, true) })
+
 	} catch (error) {
-        console.log(error);
+		console.log(error);
 		utils.catchBlockErrors(req.headers.lang, error, res)
 	}
 }
@@ -44,15 +44,15 @@ exports.updateUser = async (req, res) => {
 		await utils.checkRequestParams(req.body, [{ name: 'userId', type: 'string' }])
 		const requestDataBody = req.body
 
-        const user = await User.findOne({ _id: new mongoose.Types.ObjectId(requestDataBody.userId) })
-        if(!user) throw({ errorCode: USER_ERROR_CODE.USER_DATA_NOT_FOUND })
+		const user = await User.findOne({ _id: new mongoose.Types.ObjectId(requestDataBody.userId) })
+		if (!user) throw ({ errorCode: USER_ERROR_CODE.USER_DATA_NOT_FOUND })
 
-        const emailUser = await User.findOne({ email: requestDataBody.email, _id: { $ne: new mongoose.Types.ObjectId(requestDataBody.userId)} })
-        if(emailUser) throw({ errorCode: USER_ERROR_CODE.EMAIL_ALREADY_REGISTERED })
+		const emailUser = await User.findOne({ email: requestDataBody.email, _id: { $ne: new mongoose.Types.ObjectId(requestDataBody.userId) } })
+		if (emailUser) throw ({ errorCode: USER_ERROR_CODE.EMAIL_ALREADY_REGISTERED })
 
-        const phoneUser = await User.findOne({ _id: { $ne: new mongoose.Types.ObjectId(requestDataBody.userId)}, phoneNumber: requestDataBody.phoneUser })
-        if(phoneUser) throw({ errorCode: USER_ERROR_CODE.PHONE_NUMBER_ALREADY_REGISTERED })
-		
+		const phoneUser = await User.findOne({ _id: { $ne: new mongoose.Types.ObjectId(requestDataBody.userId) }, phoneNumber: requestDataBody.phoneUser })
+		if (phoneUser) throw ({ errorCode: USER_ERROR_CODE.PHONE_NUMBER_ALREADY_REGISTERED })
+
 		requestDataBody.firstName = utils.getStringWithFirstLetterUpperCase(requestDataBody.firstName)
 		requestDataBody.lastName = utils.getStringWithFirstLetterUpperCase(requestDataBody.lastName)
 
@@ -64,13 +64,13 @@ exports.updateUser = async (req, res) => {
 			utils.storeImageToFolder(imageFile[0].path, imageName + '.jpg', FOLDER_NAME.USER_PROFILES)
 		}
 
-        const updatedUser = await User.findByIdAndUpdate(requestDataBody.userId, requestDataBody, { new: true })
-        if(!updatedUser) throw ({ errorCode: USER_ERROR_CODE.UPDATE_FAILED })
+		const updatedUser = await User.findByIdAndUpdate(requestDataBody.userId, requestDataBody, { new: true })
+		if (!updatedUser) throw ({ errorCode: USER_ERROR_CODE.UPDATE_FAILED })
 
-        return res.json({ success: true, ...utils.middleware(req.headers.lang, USER_MESSAGE_CODE.UPDATED_SUCCESSFULLY, true) })
-		
+		return res.json({ success: true, ...utils.middleware(req.headers.lang, USER_MESSAGE_CODE.UPDATED_SUCCESSFULLY, true) })
+
 	} catch (error) {
-        console.log(error);
+		console.log(error);
 		utils.catchBlockErrors(req.headers.lang, error, res)
 	}
 }
@@ -80,14 +80,14 @@ exports.deleteUser = async (req, res) => {
 		await utils.checkRequestParams(req.body, [{ name: 'userId', type: 'string' }])
 		const requestDataBody = req.body
 
-        const user = await User.findOne({ _id: new mongoose.Types.ObjectId(requestDataBody.userId) })
-        if(!user) throw({ errorCode: USER_ERROR_CODE.USER_DATA_NOT_FOUND })
+		const user = await User.findOne({ _id: new mongoose.Types.ObjectId(requestDataBody.userId) })
+		if (!user) throw ({ errorCode: USER_ERROR_CODE.USER_DATA_NOT_FOUND })
 
-        await User.findByIdAndDelete(requestDataBody.userId)
-        return res.json({ success: true, ...utils.middleware(req.headers.lang, USER_MESSAGE_CODE.USER_DELETED_SUCCESSFULLY, true) })
-		
+		await User.findByIdAndDelete(requestDataBody.userId)
+		return res.json({ success: true, ...utils.middleware(req.headers.lang, USER_MESSAGE_CODE.USER_DELETED_SUCCESSFULLY, true) })
+
 	} catch (error) {
-        console.log(error);
+		console.log(error);
 		utils.catchBlockErrors(req.headers.lang, error, res)
 	}
 }
@@ -142,10 +142,10 @@ exports.getUserListSearchSort = async (req, res) => {
 		// 		search = { $match: { $or: [query1, query2, query3, query4, query5, query6] } }
 		// 	}
 		// } 
-        // else {
-			const query = {}
-			query[searchField] = { $regex: new RegExp(searchValue, 'i') }
-			search = { $match: query }
+		// else {
+		const query = {}
+		query[searchField] = { $regex: new RegExp(searchValue, 'i') }
+		search = { $match: query }
 		// }
 
 		const users = await User.aggregate([search, sort, count, project1])
@@ -166,8 +166,8 @@ exports.getUserDetail = async (req, res) => {
 	try {
 		await utils.checkRequestParams(req.body, [{ name: 'userId', type: 'string' }])
 		const requestDataBody = req.body
-		
-		const user = await User.findOne({ _id: { $eq: new mongoose.Types.ObjectId(requestDataBody.userId) } }) 
+
+		const user = await User.findOne({ _id: { $eq: new mongoose.Types.ObjectId(requestDataBody.userId) } })
 
 		if (!user) throw ({ errorCode: USER_ERROR_CODE.USER_DATA_NOT_FOUND })
 
