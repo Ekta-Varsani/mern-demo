@@ -1,11 +1,12 @@
 const mongoose = require('mongoose')
 const schema = mongoose.Schema
+// var autoIncrement = require('mongoose-id-autoincrement');
 
-// const autoIncrement = require('mongoose-auto-increment')
+// // const autoIncrement = require('mongoose-auto-increment')
 // autoIncrement.initialize(mongoose.connection)
 
 const user = schema({
-	// uniqueId: Number,
+	uniqueId: {type: Number, default: 0, unique: true},
 	firstName: { type: String, default: '' },
 	lastName: { type: String, default: '' },
 	email: { type: String, default: '' },

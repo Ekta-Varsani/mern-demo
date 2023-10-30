@@ -104,7 +104,7 @@ exports.getUserListSearchSort = async (req, res) => {
 		let search
 
 		const sort = { $sort: {} }
-		sort.$sort.firstName = parseInt(-1)
+		sort.$sort._id = parseInt(-1)
 		let count = { $group: { _id: null, count: { $sum: 1 }, data: { $push: '$data' } } }
 		const skip = {}
 		skip.$skip = (page * numberOfRecord) - numberOfRecord

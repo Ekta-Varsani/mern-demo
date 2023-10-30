@@ -12,6 +12,20 @@ const init = () => {
     const app = express()
     const server = require('http').createServer(app)
 
+    const io = require('socket.io')(server, {
+      cors: {
+        origin: '*'
+      }
+    })
+
+    io.on('connection', (socket) => {
+		  console.log('connected')
+
+      socket.emit('logOut', {user: 'ekta'}, (response) => {
+        console.log(response)
+      })
+	  })
+
     server.listen(port, (error) => {
 		if (error) console.log(error)
 		else console.log('server listen from port no. : ' + `${port}`)

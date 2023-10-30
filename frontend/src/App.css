@@ -36,3 +36,20 @@
     transform: rotate(360deg);
   }
 }
+.page-item.active .page-link  {
+  background-color: black;
+  color: white;
+}
+
+.page-item .page-link {
+  /* position: relative;
+  display: block;
+  margin: 0 2px;
+  min-height: 40px;
+  min-width: 40px;
+  border-radius: 20px;
+  text-align: center;
+  line-height: 40px; */
+  color: black;
+  /* text-decoration: none; */
+}
