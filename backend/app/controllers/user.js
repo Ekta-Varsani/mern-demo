@@ -4,6 +4,7 @@ require('../utils/constant')
 const mongoose = require('mongoose')
 const utils = require('../utils/utils')
 const User = require('mongoose').model('user')
+const stripe = require('stripe')('sk_test_51LGcrmItXZ8PhVwXc8CnghuVOPiwde0Qlv5LkIWg8aqob1GlfAHLLjchuxAfV4WXUiEvzB8ElFt4NTGRrzsFf3xK00N40tQcUi');
 
 exports.userRegistration = async (req, res) => {
 	try {
@@ -172,6 +173,46 @@ exports.getUserDetail = async (req, res) => {
 		if (!user) throw ({ errorCode: USER_ERROR_CODE.USER_DATA_NOT_FOUND })
 
 		return res.json({ success: true, responseData: user })
+	} catch (error) {
+		utils.catchBlockErrors(req.headers.lang, error, res)
+	}
+}
+
+exports.createStripeProduct = async (req, res) => {
+	try {
+		// prod_P71l2NO5CSpbWe
+		// const product = await stripe.products.create({
+		// 	name: 'Gold Special',
+		// });
+		const price = await stripe.prices.create({
+			unit_amount: 2000,
+			currency: 'usd',
+			recurring: {interval: 'month'},
+			product: 'prod_P71l2NO5CSpbWe',
+		  });
+		return res.json({ success: true, responseData: price })
+	} catch (error) {
+		utils.catchBlockErrors(req.headers.lang, error, res)
+	}
+}
+
+exports.stripCheckout = async (req, res) => {
+	try {
+		console.log(req.host)
+		const session = await stripe.checkout.sessions.create({
+			line_items: [
+			{
+				// Provide the exact Price ID (for example, pr_1234) of the product you want to sell
+				price: 'price_1OInjeItXZ8PhVwXKzOFTU7P',
+				quantity: 1,
+			},
+			],
+			mode: 'subscription',
+			success_url: 'http://localhost:3001/',
+			cancel_url: 'http://localhost:3001/',
+		});
+		console.log(session.url)
+		res.redirect(303, session.url);
 	} catch (error) {
 		utils.catchBlockErrors(req.headers.lang, error, res)
 	}

@@ -91,7 +91,7 @@ function UserList() {
                     getUserList(searchConfig)
                     setIsModal(false)
                 } else {
-                    // setIsModal(false)
+                    setIsModal(false)
                 }
             });
         } else {
@@ -109,7 +109,7 @@ function UserList() {
                     getUserList(searchConfig)
                     setIsModal(false)
                 } else {
-                    // setIsModal(false)
+                    setIsModal(false)
                 }
             });
         }
@@ -131,6 +131,25 @@ function UserList() {
                 setUserDetail(null)
             } else {
                 setIsDeleteModal(false)
+            }
+        });
+    }
+
+    const onCreateProduct = () => {
+        sendRequest({
+            url: POST_METHOD.stripeCheckout,
+            method: 'POST',
+            body: {},
+            showErrorToast: true,
+            showSuccessToast: true,
+            isShowLoading: true,
+            isHideLoading: true,
+            isFormData: true
+        }, (data) => {
+            if (data.success) {
+                console.log(data)
+            } else {
+                console.log(data)
             }
         });
     }
@@ -179,7 +198,7 @@ function UserList() {
                     <tbody>
                         {
                             userList.length > 0 ? userList.map((data, i) => (
-                                <tr>
+                                <tr key={i}>
                                     <td>{i + 1}</td>
                                     <td>{data.firstName} {data.lastName}</td>
                                     <td><img className="rounded-circle" src={data.imageUrl !== '' ? 'http://localhost:7000/' + data.imageUrl : defaultImage } height="50px" width="50px" alt="" /></td>

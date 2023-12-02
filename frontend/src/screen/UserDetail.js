@@ -60,6 +60,7 @@ const UserDetail = (props) => {
                 formData.delete('_id')
             }
             props.updateUserDetail(formData)
+            setIsFormSubmitted(false);
         }
     }
 
@@ -88,7 +89,7 @@ const UserDetail = (props) => {
                                 </div>
                                 <div className='col-8'>
                                     <input className='form-control' type="text" onChange={onChange} name="lastName" value={userDetail.lastName} />
-                                    {isFormSubmitted && !validations.lastName && <small className='text-danger'>Please enter first name</small>}
+                                    {isFormSubmitted && !validations.lastName && <small className='text-danger'>Please enter Last name</small>}
                                 </div>
                             </div>
                             <div className='row mb-2'>
@@ -97,7 +98,7 @@ const UserDetail = (props) => {
                                 </div>
                                 <div className='col-8'>
                                     <input className='form-control' type="text" onChange={onChange} name="email" value={userDetail.email} />
-                                    {isFormSubmitted && !validations.email && <small className='text-danger'>Please enter first name</small>}
+                                    {isFormSubmitted && !validations.email && <small className='text-danger'>Please enter email</small>}
                                 </div>
                             </div>
                             <div className='row mb-2'>
@@ -106,7 +107,7 @@ const UserDetail = (props) => {
                                 </div>
                                 <div className='col-8'>
                                     <input className='form-control' type="text" onChange={onChange} name="phoneNumber" value={userDetail.phoneNumber} />
-                                    {isFormSubmitted && !validations.phoneNumber && <small className='text-danger'>Please enter first name</small>}
+                                    {isFormSubmitted && !validations.phoneNumber && <small className='text-danger'>Please enter Phone Number</small>}
                                 </div>
                             </div>
                             <div className='row mb-2'>

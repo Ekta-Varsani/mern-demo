@@ -20,5 +20,5 @@ const book = schema({
 	}
 })
 
-book.plugin(autoIncrement.plugin, { model: 'book', field: 'uniqueId', startAt: 1, incrementBy: 1 })
+// book.plugin(autoIncrement.plugin, { model: 'book', field: 'uniqueId', startAt: 1, incrementBy: 1 })
 module.exports = mongoose.model('book', book)

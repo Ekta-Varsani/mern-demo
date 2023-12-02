@@ -8,4 +8,7 @@ router.post('/user/updateUser', user.updateUser)
 router.post('/user/deleteUser', user.deleteUser)
 router.post('/user/getUserListSearchSort', user.getUserListSearchSort)
 router.post('/user/getUserDetail', user.getUserDetail)
+router.post('/user/stripCheckout', user.stripCheckout)
+router.post('/user/createStripeProduct', user.createStripeProduct)
+
 module.exports = router

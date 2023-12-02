@@ -3,7 +3,7 @@ import UserList from './screen/UserList';
 import { Toast } from "react-bootstrap";
 import { useSelector, useDispatch } from 'react-redux'
 import { toastActions } from './Redux/Reducers/ToastReducer'
-import socket from './socket';
+import socket from './Socket';
 
 function App() {
   const dispatch = useDispatch();

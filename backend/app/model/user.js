@@ -4,9 +4,10 @@ const schema = mongoose.Schema
 
 // // const autoIncrement = require('mongoose-auto-increment')
 // autoIncrement.initialize(mongoose.connection)
+// "mongoose-id-autoincrement": "^1.0.4", --- package.json
 
 const user = schema({
-	uniqueId: {type: Number, default: 0, unique: true},
+	// uniqueId: {type: Number, default: 0, unique: true},
 	firstName: { type: String, default: '' },
 	lastName: { type: String, default: '' },
 	email: { type: String, default: '' },
