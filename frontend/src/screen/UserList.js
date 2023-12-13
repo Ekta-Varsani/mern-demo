@@ -240,7 +240,7 @@ function UserList() {
             <form onSubmit={onDeleteUser} className="d-flex flex-column justify-content-between" style={{ 'height': 'inherit' }}>
                 <div>
                     <Modal.Header>
-                        <h6>Delete User ()</h6>
+                        <h6>Delete User ({userDetail.firstName} {userDetail.lastName})</h6>
                         <button type="button" className="btn-close" onClick={() => { setIsDeleteModal(false) }}  ></button>
                     </Modal.Header>
                     <Modal.Body>
