@@ -188,7 +188,7 @@ exports.createStripeProduct = async (req, res) => {
 			unit_amount: 2000,
 			currency: 'usd',
 			recurring: {interval: 'month'},
-			product: 'prod_P71l2NO5CSpbWe',
+			product: 'prod_P75o0wZrOSacnn',
 		  });
 		return res.json({ success: true, responseData: price })
 	} catch (error) {
@@ -198,22 +198,80 @@ exports.createStripeProduct = async (req, res) => {
 
 exports.stripCheckout = async (req, res) => {
 	try {
-		console.log(req.host)
+		// const price = await stripe.prices.create({
+		// 	unit_amount: 2000,
+		// 	currency: 'usd',
+		// 	// recurring: {interval: 'month'},
+		// 	product: 'prod_P75o0wZrOSacnn',
+		//   });
+
 		const session = await stripe.checkout.sessions.create({
-			line_items: [
-			{
-				// Provide the exact Price ID (for example, pr_1234) of the product you want to sell
-				price: 'price_1OInjeItXZ8PhVwXKzOFTU7P',
-				quantity: 1,
-			},
+			payment_method_types: [
+				"card", //---------working
+				// "alipay", //---------working
+				// "affirm", //more than 50 usd //---------working
+				// "acss_debit", //payment_method_options required
+				// 'afterpay_clearpay'
+				// 'au_becs_debit'
+				// 'bacs_debit'
+				// 'bancontact' // not available for usd
+				// 'blik'
+				// 'boleto'
+				// 'cashapp', //---------working
+				// 'customer_balance'
+				// 'eps'
+				// 'fpx', 
+				// 'giropay', 
+				// 'grabpay',
+				// 'ideal',
+				// 'klarna', //---------working
+				// 'konbini',
+				// 'link', //---------working
+				// 'oxxo',
+				// 'p24',
+				// 'paynow',
+				// 'paypal',
+				// 'pix',
+				// 'promptpay',
+				// 'sepa_debit',
+				// 'sofort', // only suppoer 'qur'
+				// 'us_bank_account', //---------working
+				// 'wechat_pay',
+				// 'revolut_pay'
 			],
-			mode: 'subscription',
+			mode: 'payment',
+			line_items: [
+			// {
+			// 	// Provide the exact Price ID (for example, pr_1234) of the product you want to sell
+			// 	// price: 'price_1OIrcwItXZ8PhVwX6AfzMpsW',
+			// 	price: 'price_1OIsgbItXZ8PhVwXPt6GSefP',
+			// 	quantity: 1,
+			// },
+			{
+				price_data: {
+					currency: 'usd',
+					product_data: {name: 'Eval'},
+					unit_amount: 2500
+				},
+				quantity: 1
+			}
+			],
+			customer_email: 'ektav@gmail.com',
 			success_url: 'http://localhost:3001/',
 			cancel_url: 'http://localhost:3001/',
 		});
+
+		// const session = await stripe.checkout.sessions.retrieve(
+		// 	'cs_test_a1SVTZ14RZje2veIcn9PyBHGfpSQxLdgw7F3uKKBSlFoHphTvqFhSpwaWZ'
+		// );
+
+		console.log(session.id)
 		console.log(session.url)
-		res.redirect(303, session.url);
+		console.log(session.payment_status)
+		res.send({url: session.url});
 	} catch (error) {
 		utils.catchBlockErrors(req.headers.lang, error, res)
 	}
 }
+
+// "Invalid payment_method_types[0]: must be one of card, acss_debit, affirm, afterpay_clearpay, alipay, au_becs_debit, bacs_debit, bancontact, blik, boleto, cashapp, customer_balance, eps, fpx, giropay, grabpay, ideal, klarna, konbini, link, oxxo, p24, paynow, paypal, pix, promptpay, sepa_debit, sofort, us_bank_account, wechat_pay, revolut_pay, or zip"
