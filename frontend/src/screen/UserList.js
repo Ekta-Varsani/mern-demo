@@ -205,7 +205,6 @@ function UserList() {
                                     <td>{data.email}</td>
                                     <td>{data.phoneNumber}</td>
                                     <td><a href="javascript:void(0);" onClick={() => showUserDetail(data)}><img src={editImage} height="25px" width="25px" alt="" /></a> <a href="javascript:void(0);" onClick={() => {setIsDeleteModal(true); setUserDetail(data)}}><img src={deleteImage} height="25px" width="25px" alt="" /></a>
-                                    <button className="btn btn-sm btn-dark" onClick={onCreateProduct}>Pay</button>
                                     </td>
                                 </tr>
                             )) : <div className="mt-3 d-flex justify-content-center">No data found</div>
